@@ -1,6 +1,6 @@
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { CATEGORIES, CLASSES, PAGES } from "../data/pages.js";
-import { CLASS_COLORS, contentSummary, displayTitle, fmtDate } from "../utils.js";
+import { classColor, contentSummary, displayTitle, fmtDate } from "../utils.js";
 import ClassTag from "../components/ClassTag.jsx";
 
 const ALL = "全部";
@@ -44,7 +44,7 @@ export default function ListPage() {
             key={c}
             className="rail-btn"
             aria-pressed={cls === c}
-            style={{ "--tag": CLASS_COLORS[c] || "var(--gold)" }}
+            style={{ "--tag": c === ALL ? "var(--gold)" : classColor(c) }}
             onClick={() => update("class", c)}
           >
             <span>{c}</span>

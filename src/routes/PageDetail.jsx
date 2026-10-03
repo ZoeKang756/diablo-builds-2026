@@ -1,6 +1,6 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import { PAGES, getPage } from "../data/pages.js";
-import { CLASS_COLORS, displayTitle, fmtDate } from "../utils.js";
+import { classColor, displayTitle, fmtDate } from "../utils.js";
 import ClassTag from "../components/ClassTag.jsx";
 import Blocks from "../components/Blocks.jsx";
 import NotFound from "./NotFound.jsx";
@@ -26,7 +26,7 @@ export default function PageDetail() {
   ];
 
   return (
-    <main className="wrap" style={{ "--tag": CLASS_COLORS[page.class] }}>
+    <main className="wrap" style={{ "--tag": classColor(page.class) }}>
       <Link className="back" to={backTo}>‹ 回到配裝列表</Link>
 
       <header className="detail-head">

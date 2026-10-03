@@ -16,7 +16,8 @@ const OUT_DATA = path.join(ROOT, "src/data/pages.js");
 const OUT_IMAGES = path.join(ROOT, "public/images");
 const OVERRIDES = JSON.parse(fs.readFileSync(path.join(ROOT, "scripts/notion-overrides.json"), "utf8"));
 
-const KNOWN_CLASSES = ["血騎士", "術士", "秘術師", "德魯伊", "野蠻人", "聖教軍", "狩魔獵人", "死靈法師", "暗影之刃", "風暴使者"];
+// 職業篩選的顯示順序；不在清單裡的新職業會排在最後
+const KNOWN_CLASSES = ["血騎士", "術士", "秘術師", "德魯伊", "聖教軍", "風暴使者", "野蠻人", "狩魔獵人", "死靈法師", "武僧"];
 const KNOWN_CATEGORIES = ["配裝截圖", "其他資訊"];
 const HEADING_MAX = 20; // 超過這個字數的 Notion 標題當成文字筆記
 
@@ -165,6 +166,6 @@ fs.writeFileSync(OUT_DATA, js);
 
 console.log(`完成：${pages.length} 個頁面、${imageCount} 張截圖`);
 pages.filter((p) => p.slug.startsWith("page-")).forEach((p) =>
-  console.log(`  新頁面「${p.title || "無標題"}」使用預設網址 /pages/${p.slug}，可在 notion-overrides.json 設定 slug（ID：${p.notionId}）`)
+  console.log(`  新頁面「${p.title || "無標題"}」使用預設網址 /#/pages/${p.slug}，可在 notion-overrides.json 設定 slug（ID：${p.notionId}）`)
 );
 if (missing.length) console.warn(`找不到 ${missing.length} 張圖片：\n  ${missing.join("\n  ")}`);

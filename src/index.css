@@ -1,6 +1,6 @@
 :root{
   --bg:#17120f; --panel:#211a16; --line:#3a2e27; --ink:#ece3d6; --ink-2:#a8988a;
-  --gold:#c9a45c; --c-blood:#c8373b; --c-warlock:#9a6ae0; --c-wizard:#4f95e0; --c-druid:#6aa84f;
+  --gold:#c9a45c; --c-blood:#c8373b; --c-barbarian:#d9822b; --c-crusader:#d8b740; --c-necro:#9fbf5a; --c-druid:#6aa84f; --c-dh:#2fb39a; --c-tempest:#3cb4d6; --c-wizard:#4f95e0; --c-warlock:#9a6ae0; --c-monk:#e070a8;
   --shadow:0 18px 40px -20px rgba(0,0,0,.8);
   --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
@@ -9,13 +9,13 @@
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
     --bg:#e7e3de; --panel:#f4f1ed; --line:#cfc6bc; --ink:#231b16; --ink-2:#6d5f54;
-    --gold:#8a6420; --c-blood:#a3222a; --c-warlock:#6c3fb8; --c-wizard:#2563a8; --c-druid:#3f7a2b;
+    --gold:#8a6420; --c-blood:#a3222a; --c-barbarian:#a85a10; --c-crusader:#8f7410; --c-necro:#5e7d1f; --c-druid:#3f7a2b; --c-dh:#127a68; --c-tempest:#14799a; --c-wizard:#2563a8; --c-warlock:#6c3fb8; --c-monk:#b03a78;
     --shadow:0 18px 40px -24px rgba(60,40,20,.45); color-scheme:light;
   }
 }
 :root[data-theme="dark"]{
   --bg:#17120f; --panel:#211a16; --line:#3a2e27; --ink:#ece3d6; --ink-2:#a8988a;
-  --gold:#c9a45c; --c-blood:#c8373b; --c-warlock:#9a6ae0; --c-wizard:#4f95e0; --c-druid:#6aa84f; color-scheme:dark;
+  --gold:#c9a45c; --c-blood:#c8373b; --c-barbarian:#d9822b; --c-crusader:#d8b740; --c-necro:#9fbf5a; --c-druid:#6aa84f; --c-dh:#2fb39a; --c-tempest:#3cb4d6; --c-wizard:#4f95e0; --c-warlock:#9a6ae0; --c-monk:#e070a8; color-scheme:dark;
 }
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -35,10 +35,10 @@ img{max-width:100%;display:block}
 .lede{color:var(--ink-2);margin:16px 0 36px;max-width:36em}
 
 /* class rail */
-.class-rail{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:16px}
-.rail-btn{background:var(--panel);border:0;border-right:1px solid var(--line);padding:14px 12px 12px;text-align:left;display:flex;justify-content:space-between;align-items:baseline;
+/* 職業數量不固定，格子自動換行；分隔線用 box-shadow 畫，最後一列的空位不會露出底色 */
+.class-rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.rail-btn{background:var(--panel);border:0;box-shadow:1px 0 0 var(--line),0 1px 0 var(--line);padding:14px 12px 12px;text-align:left;display:flex;justify-content:space-between;align-items:baseline;
   font-family:var(--serif);font-weight:600;font-size:17px;position:relative;transition:background .15s}
-.rail-btn:last-child{border-right:0}
 .rail-btn::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--tag);transform:scaleX(0);transform-origin:left;transition:transform .2s}
 .rail-btn[aria-pressed="true"]{background:color-mix(in srgb,var(--tag) 16%,var(--panel))}
 .rail-btn[aria-pressed="true"]::after{transform:scaleX(1)}
@@ -81,8 +81,6 @@ a.tr:hover .td-title>span:first-child{color:var(--gold)}
 
 @media (max-width:720px){
   .class-rail{grid-template-columns:repeat(3,1fr)}
-  .rail-btn:nth-child(3){border-right:0}
-  .rail-btn:nth-child(-n+3){border-bottom:1px solid var(--line)}
   .search{max-width:none;margin-left:0}
   .th{display:none}
   .tr{grid-template-columns:1fr auto;gap:4px 12px;padding:14px 4px}
