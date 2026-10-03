@@ -1,10 +1,10 @@
 // 此檔案由 scripts/import-notion.mjs 自動產生，請勿手動修改。
 // 資料來源：Notion「暗黑不朽配裝資訊匯總」
-// 產生時間：2026-10-03T01:19:51.293Z
+// 產生時間：2026-10-03T09:35:33.502Z
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
 
-export const CLASSES = ["血騎士","術士","秘術師","德魯伊"];
+export const CLASSES = ["血騎士","術士","秘術師","德魯伊","聖教軍","風暴使"];
 export const CATEGORIES = ["配裝截圖","其他資訊"];
 
 export const PAGES = [
@@ -520,6 +520,18 @@ export const PAGES = [
           },
           {
             "src": "/images/druid-pvp-2/10.jpg"
+          },
+          {
+            "src": "/images/druid-pvp-2/11.jpg"
+          },
+          {
+            "src": "/images/druid-pvp-2/12.jpg"
+          },
+          {
+            "src": "/images/druid-pvp-2/13.jpg"
+          },
+          {
+            "src": "/images/druid-pvp-2/14.jpg"
           }
         ]
       }
@@ -563,6 +575,110 @@ export const PAGES = [
           },
           {
             "src": "/images/page-3ec0720d/09.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "page-3ee0720d",
+    "notionId": "3ee0720d219c80ce8154c91a1b72fd1c",
+    "title": "風暴使pvp",
+    "class": "風暴使",
+    "category": "配裝截圖",
+    "date": "2026-10-03",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3ee0720d/01.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/02.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/03.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/04.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/05.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/06.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/07.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/08.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/09.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/10.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/11.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d/12.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "page-3ee0720d-2",
+    "notionId": "3ee0720d219c80e182cdc036fbf888f9",
+    "title": "聖教軍pvp",
+    "class": "聖教軍",
+    "category": "配裝截圖",
+    "date": "2026-10-03",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3ee0720d-2/01.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/02.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/03.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/04.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/05.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/06.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/07.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/08.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/09.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/10.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/11.jpg"
+          },
+          {
+            "src": "/images/page-3ee0720d-2/12.jpg"
           }
         ]
       }

@@ -8,8 +8,9 @@ export default defineConfig(({ command, mode }) => {
   if (command === "build") {
     if (mode === "github") base = "/diablo-builds-2026/"
     if (mode === "zoekang") base = "/app/diablo/"
+    if (mode === "local") base = "/"
   }
-
+console.log({ command, mode, base })
   return {
     plugins: [react()],
     base,

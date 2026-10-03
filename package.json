@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:local": "vite build",
     "build:github": "vite build --mode github",
     "build:zoekang": "vite build --mode zoekang",
     "preview": "vite preview",
     "import-notion": "node scripts/import-notion.mjs",
-    "deploy": "vite build && gh-pages -d dist"
+    "deploy": "vite build --mode github && gh-pages -d dist"
   },
   "dependencies": {
     "gh-pages": "^6.3.0",
