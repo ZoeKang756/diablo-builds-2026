@@ -1,0 +1,18 @@
+{
+  "3ec0720d219c80bb8968c163a13b1892": {
+    "slug": "general-pve",
+    "captions": ["裝備與技能配置", "巔峰", "裝備詳情：謙遜的衝動", "裝備詳情：妖術狩獵", "裝備詳情：腐爛誘惑", "技能等級", "裝備強度總覽"]
+  },
+  "3ec0720d219c8067bf6cf59ad107094e": { "slug": "blood-pve" },
+  "3ec0720d219c80029b8dc3424ce28d56": { "slug": "blood-pvp" },
+  "3ec0720d219c800fb9d5c63edd2814e0": { "slug": "farming" },
+  "3ec0720d219c80de8eafd26193616893": { "slug": "street-shadow" },
+  "3ec0720d219c8049994ed7efc280cb88": { "slug": "street-ruin" },
+  "3ec0720d219c80d6a139d609b421a154": { "slug": "videos" },
+  "3ec0720d219c801c8d86e3c9a1f4e02d": { "slug": "battleground-a" },
+  "3ec0720d219c8023bfb0d11158542633": { "slug": "battleground-b" },
+  "3ec0720d219c8087a122e733a5453e64": { "slug": "warlock-pvp" },
+  "3ec0720d219c80ab9b21f1348aa32107": { "slug": "druid-pve" },
+  "3ec0720d219c805b9f91d77f982edcb0": { "slug": "druid-pvp-1" },
+  "3ec0720d219c8004b0dbdbf47699b010": { "slug": "druid-pvp-2" }
+}
