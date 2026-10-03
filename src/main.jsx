@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Layout from "./routes/Layout.jsx";
 import ListPage from "./routes/ListPage.jsx";
 import PageDetail from "./routes/PageDetail.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import "./index.css";
 
-const router = createBrowserRouter(
+// 使用 HashRouter（網址為 /#/pages/...），任何主機重新整理都不會 404，不需額外設定伺服器
+const router = createHashRouter(
   [
     {
       path: "/",
@@ -19,8 +20,7 @@ const router = createBrowserRouter(
         { path: "*", element: <NotFound /> },
       ],
     },
-  ],
-  { basename: import.meta.env.BASE_URL }
+  ]
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(

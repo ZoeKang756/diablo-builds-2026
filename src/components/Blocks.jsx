@@ -2,12 +2,14 @@ import Gallery from "./Gallery.jsx";
 import YouTube from "./YouTube.jsx";
 
 export default function Blocks({ blocks }) {
+  let galleryNo = 0; // 第幾個圖組（從 1 開始），用來記錄目前看到的位置
   return (
     <div className="blocks">
       {blocks.map((b, i) => {
         switch (b.type) {
           case "gallery":
-            return <Gallery key={i} images={b.images} />;
+            galleryNo += 1;
+            return <Gallery key={i} images={b.images} galleryNo={galleryNo} />;
           case "video":
             return <YouTube key={i} id={b.youtubeId} />;
           case "heading":

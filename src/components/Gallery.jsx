@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Keyboard, Navigation, Pagination, Zoom } from "swiper/modules";
 import "swiper/css";
@@ -13,10 +14,48 @@ const canNativeFs = () =>
   typeof document !== "undefined" &&
   !!(document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
 
+// 網址上的 ?img=圖組-張數（都從 1 開始），例如 ?img=2-4 是第 2 個圖組的第 4 張
+const parseImg = (value) => {
+  const m = (value || "").match(/^(\d+)-(\d+)$/);
+  return m ? { gallery: Number(m[1]), index: Number(m[2]) - 1 } : null;
+};
+
 // 截圖輪播：左右箭頭 + 張數 + 全螢幕，手機可左右滑動，雙擊或雙指可放大
-export default function Gallery({ images }) {
+// 目前看到的張數會寫進網址，重新整理或分享連結都會停在同一張
+export default function Gallery({ images, galleryNo = 1 }) {
   const frameRef = useRef(null);
-  const [active, setActive] = useState(0);
+  const [params, setParams] = useSearchParams();
+  const paramsRef = useRef(params); // Swiper 事件裡永遠讀到最新的網址參數
+  paramsRef.current = params;
+
+  // 只在第一次顯示時讀取網址決定起始張數
+  const [initial] = useState(() => {
+    const saved = parseImg(params.get("img"));
+    return saved && saved.gallery === galleryNo && saved.index < images.length ? saved.index : 0;
+  });
+  const [active, setActive] = useState(initial);
+
+  // 從網址指定第 2 個以後的圖組時，捲動到那個圖組
+  useEffect(() => {
+    if (initial > 0 && galleryNo > 1) frameRef.current?.scrollIntoView({ block: "center" });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleSlideChange = (s) => {
+    const index = s.realIndex;
+    setActive(index);
+    const latest = paramsRef.current;
+    const current = latest.get("img");
+    const ownsParam = parseImg(current)?.gallery === galleryNo;
+    // 回到第一張：如果網址記的是這個圖組就清掉，記的是別的圖組就不動
+    if (index === 0 && !ownsParam) return;
+    const next = index === 0 ? null : `${galleryNo}-${index + 1}`;
+    if (next === current) return;
+    const updated = new URLSearchParams(latest);
+    if (next) updated.set("img", next);
+    else updated.delete("img");
+    // replace：切換圖片不會塞滿瀏覽器的上一頁紀錄
+    setParams(updated, { replace: true, preventScrollReset: true });
+  };
   const [fullscreen, setFullscreen] = useState(false);
   const [fallback, setFallback] = useState(false); // 不支援原生全螢幕時的替代模式
   const caption = images[active]?.caption;
@@ -83,8 +122,9 @@ export default function Gallery({ images }) {
           keyboard={{ enabled: true, onlyInViewport: true }}
           zoom={{ maxRatio: 3 }}
           loop={!single}
+          initialSlide={initial}
           spaceBetween={12}
-          onSlideChange={(s) => setActive(s.realIndex)}
+          onSlideChange={handleSlideChange}
           a11y={{ prevSlideMessage: "上一張", nextSlideMessage: "下一張" }}
         >
           {images.map((img, i) => (
