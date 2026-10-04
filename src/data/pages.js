@@ -1,6 +1,6 @@
 // 此檔案由 scripts/import-notion.mjs 自動產生，請勿手動修改。
 // 資料來源：Notion「暗黑不朽配裝資訊匯總」
-// 產生時間：2026-10-03T09:35:33.502Z
+// 產生時間：2026-10-04T11:25:30.483Z
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
 
@@ -679,6 +679,70 @@ export const PAGES = [
           },
           {
             "src": "/images/page-3ee0720d-2/12.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "page-3ef0720d",
+    "notionId": "3ef0720d219c803a9febda7ffccbb9f1",
+    "title": "Hzx德魯伊pvp",
+    "class": "德魯伊",
+    "category": "配裝截圖",
+    "date": "2026-10-04",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3ef0720d/01.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/02.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/03.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/04.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/05.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/06.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/07.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/08.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/09.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/10.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/11.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/12.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/13.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/14.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/15.jpg"
+          },
+          {
+            "src": "/images/page-3ef0720d/16.jpg"
           }
         ]
       }
