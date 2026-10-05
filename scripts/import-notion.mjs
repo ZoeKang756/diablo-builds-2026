@@ -1,15 +1,20 @@
 // 把 Notion「匯出 → HTML」的資料轉成 src/data/pages.js，並把截圖複製到 public/images/
 //
-// 用法：
-//   1. 解壓縮 Notion 匯出的 zip
-//   2. npm run import-notion -- <解壓縮後的資料夾>
+// 用法（先解壓縮 Notion 匯出的 zip）：
+//   完整匯入：npm run import-notion -- <資料夾>
+//     匯出整個資料庫時使用。依 Notion 列表順序重建所有頁面，舊資料與舊截圖會全部替換。
+//
+//   單頁匯入：npm run import-notion -- <資料夾> --page
+//     只匯出一個或幾個頁面時使用。已存在的頁面會原地更新（位置與網址不變），
+//     新頁面加在列表最後，其他頁面和截圖都不會動。
+//     資料夾裡沒有資料庫頁面時，會自動使用單頁匯入。
 //
 // 頁面網址（slug）與截圖說明寫在 scripts/notion-overrides.json，以 Notion 頁面 ID 對應。
 // 沒設定 slug 的新頁面會自動使用 page-<ID 前 8 碼>。
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DATA = path.join(ROOT, "src/data/pages.js");
@@ -21,9 +26,17 @@ const KNOWN_CLASSES = ["血騎士", "術士", "秘術師", "德魯伊", "聖教�
 const KNOWN_CATEGORIES = ["配裝截圖", "其他資訊"];
 const HEADING_MAX = 20; // 超過這個字數的 Notion 標題當成文字筆記
 
-const input = process.argv[2];
+const args = process.argv.slice(2);
+const forcePage = args.includes("--page");
+const input = args.find((a) => !a.startsWith("--"));
 if (!input) {
-  console.error("請指定 Notion 匯出解壓縮後的資料夾，例如：npm run import-notion -- ~/Downloads/Export");
+  console.error("請指定 Notion 匯出解壓縮後的資料夾，例如：");
+  console.error("  完整匯入：npm run import-notion -- ~/Downloads/Export");
+  console.error("  單頁匯入：npm run import-notion -- ~/Downloads/Export --page");
+  process.exit(1);
+}
+if (!fs.existsSync(input)) {
+  console.error(`找不到資料夾：${input}`);
   process.exit(1);
 }
 
@@ -39,18 +52,27 @@ const notionId = (file) => (path.basename(file).match(/([0-9a-f]{32})\.html$/) |
 const youtubeId = (url) =>
   (url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/) || [])[1];
 
-/* ---------- 找資料庫頁面，依檢視順序取得子頁面 ---------- */
+/* ---------- 決定匯入模式與要處理的頁面 ---------- */
 const htmlFiles = walk(path.resolve(input)).filter((f) => f.endsWith(".html"));
-const dbFile = htmlFiles.find((f) => fs.readFileSync(f, "utf8").includes('class="collection-content"'));
-if (!dbFile) {
-  console.error("找不到資料庫頁面（collection-content）。請確認匯出的是整個資料庫。");
-  process.exit(1);
+const isDb = (f) => fs.readFileSync(f, "utf8").includes('class="collection-content"');
+const dbFile = htmlFiles.find(isDb);
+const mode = forcePage || !dbFile ? "page" : "full";
+
+let pageFiles = [];
+if (mode === "full") {
+  // 依資料庫的檢視順序取得子頁面
+  const dbHtml = fs.readFileSync(dbFile, "utf8");
+  for (const m of dbHtml.matchAll(/href="([^"]+\.html)"/g)) {
+    const file = path.resolve(path.dirname(dbFile), decodeURIComponent(m[1]));
+    if (fs.existsSync(file) && !pageFiles.includes(file)) pageFiles.push(file);
+  }
+} else {
+  // 單頁匯入：資料夾裡所有一般頁面（略過資料庫頁面本身）
+  pageFiles = htmlFiles.filter((f) => notionId(f) && !isDb(f)).sort();
 }
-const dbHtml = fs.readFileSync(dbFile, "utf8");
-const pageFiles = [];
-for (const m of dbHtml.matchAll(/href="([^"]+\.html)"/g)) {
-  const file = path.resolve(path.dirname(dbFile), decodeURIComponent(m[1]));
-  if (fs.existsSync(file) && !pageFiles.includes(file)) pageFiles.push(file);
+if (!pageFiles.length) {
+  console.error("資料夾裡找不到 Notion 頁面（.html）。請確認匯出格式選的是 HTML。");
+  process.exit(1);
 }
 
 /* ---------- 解析單一頁面 ---------- */
@@ -106,52 +128,100 @@ function parsePage(file) {
   };
 }
 
-/* ---------- 輸出 ---------- */
-fs.rmSync(OUT_IMAGES, { recursive: true, force: true });
-fs.mkdirSync(OUT_IMAGES, { recursive: true });
+/* ---------- 讀取現有資料（單頁匯入用） ---------- */
+let existing = [];
+if (mode === "page") {
+  if (!fs.existsSync(OUT_DATA)) {
+    console.error("還沒有 src/data/pages.js，第一次請先用完整匯入。");
+    process.exit(1);
+  }
+  existing = (await import(pathToFileURL(OUT_DATA).href + `?t=${Date.now()}`)).PAGES;
+}
 
-const usedSlugs = new Set();
+/* ---------- 轉換頁面、複製截圖 ---------- */
 let imageCount = 0;
 const missing = [];
 
-const pages = pageFiles.map(parsePage).map((p) => {
+if (mode === "full") {
+  fs.rmSync(OUT_IMAGES, { recursive: true, force: true });
+}
+fs.mkdirSync(OUT_IMAGES, { recursive: true });
+
+function buildPage(p, slug) {
   const override = OVERRIDES[p.id] || {};
-  let slug = override.slug || `page-${p.id.slice(0, 8)}`;
-  while (usedSlugs.has(slug)) slug += "-2";
-  usedSlugs.add(slug);
-
-  let n = 0;
   const captions = override.captions || [];
-  const blocks = p.blocks.map((b) => {
-    if (b.type !== "gallery") return b;
-    const images = [];
-    for (const src of b.files) {
-      if (!fs.existsSync(src)) {
-        missing.push(src);
-        continue;
+  const dir = path.join(OUT_IMAGES, slug);
+  fs.rmSync(dir, { recursive: true, force: true }); // 只清掉這一頁自己的截圖
+  let n = 0;
+  const blocks = p.blocks
+    .map((b) => {
+      if (b.type !== "gallery") return b;
+      const images = [];
+      for (const src of b.files) {
+        if (!fs.existsSync(src)) {
+          missing.push(src);
+          continue;
+        }
+        n += 1;
+        const name = `${String(n).padStart(2, "0")}${path.extname(src).toLowerCase()}`;
+        fs.mkdirSync(dir, { recursive: true });
+        fs.copyFileSync(src, path.join(dir, name));
+        const caption = captions[n - 1];
+        images.push({ src: `/images/${slug}/${name}`, ...(caption ? { caption } : {}) });
       }
-      n += 1;
-      const name = `${String(n).padStart(2, "0")}${path.extname(src).toLowerCase()}`;
-      fs.mkdirSync(path.join(OUT_IMAGES, slug), { recursive: true });
-      fs.copyFileSync(src, path.join(OUT_IMAGES, slug, name));
-      const caption = captions[n - 1];
-      images.push({ src: `/images/${slug}/${name}`, ...(caption ? { caption } : {}) });
-    }
-    return { type: "gallery", images };
-  }).filter((b) => b.type !== "gallery" || b.images.length);
+      return { type: "gallery", images };
+    })
+    .filter((b) => b.type !== "gallery" || b.images.length);
   imageCount += n;
-
   const { id, ...rest } = p;
   return { slug, notionId: id, ...rest, blocks };
-});
+}
 
+const pickSlug = (p, used) => {
+  let slug = (OVERRIDES[p.id] || {}).slug || `page-${p.id.slice(0, 8)}`;
+  while (used.has(slug)) slug += "-2";
+  used.add(slug);
+  return slug;
+};
+
+// 單頁匯入時略過完全空白的頁面（沒有標題、屬性和內容，通常是 Notion 殘留的草稿）
+const parsed = pageFiles.map(parsePage).filter((p) => {
+  const empty = !p.title && !p.class && !p.category && !p.blocks.length;
+  if (empty && mode === "page") console.log(`  略過空白頁面（ID：${p.id}）`);
+  return !(empty && mode === "page");
+});
+const report = { updated: [], added: [] };
+let pages;
+
+if (mode === "full") {
+  const used = new Set();
+  pages = parsed.map((p) => buildPage(p, pickSlug(p, used)));
+} else {
+  pages = [...existing];
+  for (const p of parsed) {
+    const idx = pages.findIndex((e) => e.notionId === p.id);
+    if (idx >= 0) {
+      // 已存在：保留原本的網址與位置
+      const slug = (OVERRIDES[p.id] || {}).slug || pages[idx].slug;
+      if (slug !== pages[idx].slug) fs.rmSync(path.join(OUT_IMAGES, pages[idx].slug), { recursive: true, force: true });
+      pages[idx] = buildPage(p, slug);
+      report.updated.push(pages[idx]);
+    } else {
+      const used = new Set(pages.map((e) => e.slug));
+      const page = buildPage(p, pickSlug(p, used));
+      pages.push(page);
+      report.added.push(page);
+    }
+  }
+}
+
+/* ---------- 寫出 src/data/pages.js ---------- */
 const order = (known, found) => [...known.filter((k) => found.includes(k)), ...found.filter((f) => !known.includes(f))];
 const classes = order(KNOWN_CLASSES, [...new Set(pages.map((p) => p.class).filter(Boolean))]);
 const categories = order(KNOWN_CATEGORIES, [...new Set(pages.map((p) => p.category).filter(Boolean))]);
 
 const js = `// 此檔案由 scripts/import-notion.mjs 自動產生，請勿手動修改。
-// 資料來源：Notion「${stripTags((dbHtml.match(/<h1 class="page-title"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || "")}」
-// 產生時間：${new Date().toISOString()}
+// 最後匯入：${new Date().toISOString()}（${mode === "full" ? "完整匯入" : "單頁匯入"}）
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
 
@@ -164,8 +234,18 @@ export const getPage = (slug) => PAGES.find((p) => p.slug === slug);
 `;
 fs.writeFileSync(OUT_DATA, js);
 
-console.log(`完成：${pages.length} 個頁面、${imageCount} 張截圖`);
-pages.filter((p) => p.slug.startsWith("page-")).forEach((p) =>
-  console.log(`  新頁面「${p.title || "無標題"}」使用預設網址 /#/pages/${p.slug}，可在 notion-overrides.json 設定 slug（ID：${p.notionId}）`)
-);
+/* ---------- 結果報告 ---------- */
+const label = (p) => `「${p.title || "無標題"}」→ /#/pages/${p.slug}`;
+if (mode === "full") {
+  console.log(`完整匯入完成：${pages.length} 個頁面、${imageCount} 張截圖`);
+} else {
+  console.log(`單頁匯入完成：更新 ${report.updated.length} 頁、新增 ${report.added.length} 頁，共 ${imageCount} 張截圖`);
+  report.updated.forEach((p) => console.log(`  更新 ${label(p)}`));
+  report.added.forEach((p) => console.log(`  新增 ${label(p)}（加在列表最後）`));
+}
+pages
+  .filter((p) => p.slug.startsWith("page-") && (mode === "full" || report.added.includes(p)))
+  .forEach((p) =>
+    console.log(`  提示：「${p.title || "無標題"}」使用預設網址，可在 notion-overrides.json 設定 slug（ID：${p.notionId}）`)
+  );
 if (missing.length) console.warn(`找不到 ${missing.length} 張圖片：\n  ${missing.join("\n  ")}`);

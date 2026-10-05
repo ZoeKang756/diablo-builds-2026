@@ -1,10 +1,10 @@
 // 此檔案由 scripts/import-notion.mjs 自動產生，請勿手動修改。
 // 資料來源：Notion「暗黑不朽配裝資訊匯總」
-// 產生時間：2026-10-04T11:25:30.483Z
+// 產生時間：2026-10-05T12:45:04.159Z
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
 
-export const CLASSES = ["血騎士","術士","秘術師","德魯伊","聖教軍","風暴使"];
+export const CLASSES = ["血騎士","術士","秘術師","德魯伊","聖教軍","狩魔獵人","風暴使"];
 export const CATEGORIES = ["配裝截圖","其他資訊"];
 
 export const PAGES = [
@@ -743,6 +743,137 @@ export const PAGES = [
           },
           {
             "src": "/images/page-3ef0720d/16.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "page-3f00720d",
+    "notionId": "3f00720d219c8066a3cbc2fef53bd503",
+    "title": "秘術師 pvp",
+    "class": "秘術師",
+    "category": "配裝截圖",
+    "date": "2026-10-05",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3f00720d/01.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/02.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/03.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/04.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/05.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/06.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/07.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/08.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/09.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/10.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/11.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/12.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/13.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/14.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/15.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/16.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d/17.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "page-3f00720d-2",
+    "notionId": "3f00720d219c809abda6f4b84ae954a6",
+    "title": "狩魔獵人 pvp",
+    "class": "狩魔獵人",
+    "category": "配裝截圖",
+    "date": "2026-10-05",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3f00720d-2/01.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/02.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/03.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/04.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/05.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/06.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/07.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/08.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/09.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/10.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/11.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/12.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/13.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/14.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/15.jpg"
+          },
+          {
+            "src": "/images/page-3f00720d-2/16.jpg"
           }
         ]
       }
