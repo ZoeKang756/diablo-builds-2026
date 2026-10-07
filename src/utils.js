@@ -46,3 +46,14 @@ export function contentSummary(page) {
   if (!parts.length && page.blocks.some((b) => b.type === "text")) parts.push("文字筆記");
   return parts.join("、");
 }
+
+// 列表卡片的縮圖：優先用匯入時產生的縮圖，其次是第一張截圖，再來是第一部影片的 YouTube 封面
+export function pageThumb(page) {
+  if (page.thumb) return { src: asset(page.thumb), kind: "image" };
+  for (const b of page.blocks) {
+    if (b.type === "gallery" && b.images.length) return { src: asset(b.images[0].src), kind: "image" };
+  }
+  const video = page.blocks.find((b) => b.type === "video");
+  if (video) return { src: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`, kind: "video" };
+  return null;
+}

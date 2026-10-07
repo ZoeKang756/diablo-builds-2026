@@ -138,6 +138,16 @@ if (mode === "page") {
   existing = (await import(pathToFileURL(OUT_DATA).href + `?t=${Date.now()}`)).PAGES;
 }
 
+/* ---------- 列表縮圖（需要 sharp；沒有安裝時列表直接用第一張原圖） ---------- */
+let sharp = null;
+try {
+  sharp = (await import("sharp")).default;
+} catch {
+  /* sharp 是選用套件 */
+}
+const THUMB_WIDTH = 720;
+const thumbJobs = [];
+
 /* ---------- 轉換頁面、複製截圖 ---------- */
 let imageCount = 0;
 const missing = [];
@@ -174,7 +184,12 @@ function buildPage(p, slug) {
     .filter((b) => b.type !== "gallery" || b.images.length);
   imageCount += n;
   const { id, ...rest } = p;
-  return { slug, notionId: id, ...rest, blocks };
+  const page = { slug, notionId: id, ...rest, blocks };
+  const first = blocks.find((b) => b.type === "gallery")?.images[0];
+  if (first && sharp) {
+    thumbJobs.push({ page, from: path.join(ROOT, "public", first.src), to: path.join(dir, "thumb.webp") });
+  }
+  return page;
 }
 
 const pickSlug = (p, used) => {
@@ -215,6 +230,20 @@ if (mode === "full") {
   }
 }
 
+/* ---------- 產生列表縮圖 ---------- */
+let thumbCount = 0;
+await Promise.all(
+  thumbJobs.map(async ({ page, from, to }) => {
+    try {
+      await sharp(from).resize({ width: THUMB_WIDTH, withoutEnlargement: true }).webp({ quality: 72 }).toFile(to);
+      page.thumb = `/images/${page.slug}/thumb.webp`;
+      thumbCount += 1;
+    } catch (err) {
+      console.warn(`  縮圖產生失敗（${page.title || page.slug}）：${err.message}`);
+    }
+  })
+);
+
 /* ---------- 寫出 src/data/pages.js ---------- */
 const order = (known, found) => [...known.filter((k) => found.includes(k)), ...found.filter((f) => !known.includes(f))];
 const classes = order(KNOWN_CLASSES, [...new Set(pages.map((p) => p.class).filter(Boolean))]);
@@ -224,6 +253,7 @@ const js = `// 此檔案由 scripts/import-notion.mjs 自動產生，請勿手�
 // 最後匯入：${new Date().toISOString()}（${mode === "full" ? "完整匯入" : "單頁匯入"}）
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
+// thumb：列表用的縮圖（第一張截圖縮小成 WebP）
 
 export const CLASSES = ${JSON.stringify(classes)};
 export const CATEGORIES = ${JSON.stringify(categories)};
@@ -248,4 +278,6 @@ pages
   .forEach((p) =>
     console.log(`  提示：「${p.title || "無標題"}」使用預設網址，可在 notion-overrides.json 設定 slug（ID：${p.notionId}）`)
   );
+if (sharp) console.log(`  列表縮圖：${thumbCount} 張`);
+else console.log("  提示：沒有安裝 sharp，列表會直接使用第一張原圖。執行 npm install 即可安裝。");
 if (missing.length) console.warn(`找不到 ${missing.length} 張圖片：\n  ${missing.join("\n  ")}`);

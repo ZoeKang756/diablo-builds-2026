@@ -1,10 +1,10 @@
 // 此檔案由 scripts/import-notion.mjs 自動產生，請勿手動修改。
-// 資料來源：Notion「暗黑不朽配裝資訊匯總」
-// 產生時間：2026-10-05T12:45:04.159Z
+// 最後匯入：2026-10-07T01:42:17.206Z（完整匯入）
 //
 // blocks 類型：gallery（截圖）、video（YouTube）、heading（小標題）、text（文字）、link（一般連結）
+// thumb：列表用的縮圖（第一張截圖縮小成 WebP）
 
-export const CLASSES = ["血騎士","術士","秘術師","德魯伊","聖教軍","狩魔獵人","風暴使"];
+export const CLASSES = ["血騎士","術士","秘術師","德魯伊","聖教軍","狩魔獵人","武僧","風暴使"];
 export const CATEGORIES = ["配裝截圖","其他資訊"];
 
 export const PAGES = [
@@ -43,14 +43,11 @@ export const PAGES = [
           {
             "src": "/images/general-pve/06.jpg",
             "caption": "技能等級"
-          },
-          {
-            "src": "/images/general-pve/07.jpg",
-            "caption": "裝備強度總覽"
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/general-pve/thumb.webp"
   },
   {
     "slug": "blood-pve",
@@ -93,7 +90,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/blood-pve/thumb.webp"
   },
   {
     "slug": "blood-pvp",
@@ -169,7 +167,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/blood-pvp/thumb.webp"
   },
   {
     "slug": "farming",
@@ -200,7 +199,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/farming/thumb.webp"
   },
   {
     "slug": "street-shadow",
@@ -237,7 +237,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/street-shadow/thumb.webp"
   },
   {
     "slug": "street-ruin",
@@ -249,12 +250,15 @@ export const PAGES = [
     "tier": "煉獄14",
     "blocks": [
       {
-        "type": "video",
-        "youtubeId": "cpWRJ0AhZCg"
-      },
-      {
-        "type": "video",
-        "youtubeId": "C7LgoXUMJDg"
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/street-ruin/01.jpg"
+          },
+          {
+            "src": "/images/street-ruin/02.jpg"
+          }
+        ]
       },
       {
         "type": "text",
@@ -263,12 +267,6 @@ export const PAGES = [
       {
         "type": "gallery",
         "images": [
-          {
-            "src": "/images/street-ruin/01.jpg"
-          },
-          {
-            "src": "/images/street-ruin/02.jpg"
-          },
           {
             "src": "/images/street-ruin/03.jpg"
           },
@@ -279,8 +277,21 @@ export const PAGES = [
             "src": "/images/street-ruin/05.jpg"
           }
         ]
+      },
+      {
+        "type": "heading",
+        "text": "影片參考"
+      },
+      {
+        "type": "video",
+        "youtubeId": "cpWRJ0AhZCg"
+      },
+      {
+        "type": "video",
+        "youtubeId": "C7LgoXUMJDg"
       }
-    ]
+    ],
+    "thumb": "/images/street-ruin/thumb.webp"
   },
   {
     "slug": "videos",
@@ -300,36 +311,35 @@ export const PAGES = [
   {
     "slug": "battleground-b",
     "notionId": "3ec0720d219c8023bfb0d11158542633",
-    "title": "戰場配裝",
+    "title": "戰場配裝-鞭子",
     "class": "術士",
     "category": "配裝截圖",
     "date": "2026-10-01",
     "tier": "煉獄14",
     "blocks": [
       {
-        "type": "video",
-        "youtubeId": "neVaITTNxko"
-      },
-      {
         "type": "gallery",
         "images": [
           {
             "src": "/images/battleground-b/01.jpg"
-          },
-          {
-            "src": "/images/battleground-b/02.jpg"
-          },
-          {
-            "src": "/images/battleground-b/03.jpg"
           }
         ]
+      },
+      {
+        "type": "heading",
+        "text": "影片參考"
+      },
+      {
+        "type": "video",
+        "youtubeId": "neVaITTNxko"
       }
-    ]
+    ],
+    "thumb": "/images/battleground-b/thumb.webp"
   },
   {
     "slug": "battleground-a",
     "notionId": "3ec0720d219c801c8d86e3c9a1f4e02d",
-    "title": "戰場配裝",
+    "title": "戰場配裝-飛飛",
     "class": "術士",
     "category": "配裝截圖",
     "date": "2026-10-01",
@@ -364,7 +374,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/battleground-a/thumb.webp"
   },
   {
     "slug": "warlock-pvp",
@@ -375,10 +386,6 @@ export const PAGES = [
     "date": "2026-10-01",
     "tier": "煉獄14",
     "blocks": [
-      {
-        "type": "video",
-        "youtubeId": "IC4MQ8Zq2Os"
-      },
       {
         "type": "gallery",
         "images": [
@@ -395,22 +402,27 @@ export const PAGES = [
             "src": "/images/warlock-pvp/04.jpg"
           }
         ]
+      },
+      {
+        "type": "heading",
+        "text": "影片參考"
+      },
+      {
+        "type": "video",
+        "youtubeId": "IC4MQ8Zq2Os"
       }
-    ]
+    ],
+    "thumb": "/images/warlock-pvp/thumb.webp"
   },
   {
     "slug": "druid-pve",
     "notionId": "3ec0720d219c80ab9b21f1348aa32107",
-    "title": "德魯伊pve",
+    "title": "德魯伊pve-有盾",
     "class": "德魯伊",
     "category": "配裝截圖",
     "date": "2026-10-02",
     "tier": "煉獄14",
     "blocks": [
-      {
-        "type": "heading",
-        "text": "配裝1"
-      },
       {
         "type": "gallery",
         "images": [
@@ -424,28 +436,40 @@ export const PAGES = [
             "src": "/images/druid-pve/03.jpg"
           }
         ]
-      },
-      {
-        "type": "heading",
-        "text": "配裝2"
-      },
+      }
+    ],
+    "thumb": "/images/druid-pve/thumb.webp"
+  },
+  {
+    "slug": "page-3f20720d",
+    "notionId": "3f20720d219c8086b35be551ebe20e8e",
+    "title": "德魯伊pve-沒盾",
+    "class": "德魯伊",
+    "category": "配裝截圖",
+    "date": "2026-10-02",
+    "tier": "煉獄14",
+    "blocks": [
       {
         "type": "gallery",
         "images": [
           {
-            "src": "/images/druid-pve/04.jpg"
+            "src": "/images/page-3f20720d/01.jpg"
           },
           {
-            "src": "/images/druid-pve/05.jpg"
+            "src": "/images/page-3f20720d/02.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d/03.jpg"
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3f20720d/thumb.webp"
   },
   {
     "slug": "druid-pvp-1",
     "notionId": "3ec0720d219c805b9f91d77f982edcb0",
-    "title": "德魯伊pvp1",
+    "title": "德魯伊pvp-SOKI",
     "class": "德魯伊",
     "category": "配裝截圖",
     "date": "2026-10-02",
@@ -477,12 +501,13 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/druid-pvp-1/thumb.webp"
   },
   {
     "slug": "druid-pvp-2",
     "notionId": "3ec0720d219c8004b0dbdbf47699b010",
-    "title": "德魯伊pvp2",
+    "title": "德魯伊pvp-Salonpas",
     "class": "德魯伊",
     "category": "配裝截圖",
     "date": "2026-10-02",
@@ -535,12 +560,13 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/druid-pvp-2/thumb.webp"
   },
   {
     "slug": "page-3ec0720d",
     "notionId": "3ec0720d219c809c902ad828b174cb42",
-    "title": "跑圖",
+    "title": "跑圖-SHIFU",
     "class": "德魯伊",
     "category": "配裝截圖",
     "date": "2026-10-02",
@@ -578,7 +604,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3ec0720d/thumb.webp"
   },
   {
     "slug": "page-3ee0720d",
@@ -630,12 +657,13 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3ee0720d/thumb.webp"
   },
   {
     "slug": "page-3ee0720d-2",
     "notionId": "3ee0720d219c80e182cdc036fbf888f9",
-    "title": "聖教軍pvp",
+    "title": "聖教軍pvp-假牙",
     "class": "聖教軍",
     "category": "配裝截圖",
     "date": "2026-10-03",
@@ -682,12 +710,13 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3ee0720d-2/thumb.webp"
   },
   {
     "slug": "page-3ef0720d",
     "notionId": "3ef0720d219c803a9febda7ffccbb9f1",
-    "title": "Hzx德魯伊pvp",
+    "title": "德魯伊pvp-Hzx",
     "class": "德魯伊",
     "category": "配裝截圖",
     "date": "2026-10-04",
@@ -746,7 +775,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3ef0720d/thumb.webp"
   },
   {
     "slug": "page-3f00720d",
@@ -813,7 +843,8 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3f00720d/thumb.webp"
   },
   {
     "slug": "page-3f00720d-2",
@@ -877,7 +908,147 @@ export const PAGES = [
           }
         ]
       }
-    ]
+    ],
+    "thumb": "/images/page-3f00720d-2/thumb.webp"
+  },
+  {
+    "slug": "page-3f20720d-2",
+    "notionId": "3f20720d219c80a6b801fbaf22af32f1",
+    "title": "德魯伊pvp-Thyron",
+    "class": "德魯伊",
+    "category": "配裝截圖",
+    "date": "2026-10-07",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3f20720d-2/01.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/02.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/03.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/04.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/05.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/06.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/07.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/08.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/09.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/10.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/11.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/12.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/13.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/14.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/15.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/16.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2/17.jpg"
+          }
+        ]
+      }
+    ],
+    "thumb": "/images/page-3f20720d-2/thumb.webp"
+  },
+  {
+    "slug": "page-3f20720d-2-2",
+    "notionId": "3f20720d219c80c2ab17f7e709523d69",
+    "title": "武僧pvp-goros",
+    "class": "武僧",
+    "category": "配裝截圖",
+    "date": "2026-10-07",
+    "tier": "煉獄14",
+    "blocks": [
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/page-3f20720d-2-2/01.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/02.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/03.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/04.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/05.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/06.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/07.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/08.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/09.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/10.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/11.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/12.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/13.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/14.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/15.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/16.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/17.jpg"
+          },
+          {
+            "src": "/images/page-3f20720d-2-2/18.jpg"
+          }
+        ]
+      }
+    ],
+    "thumb": "/images/page-3f20720d-2-2/thumb.webp"
   }
 ];
 
